@@ -1,0 +1,106 @@
+import customtkinter as ctk
+from tkinter import Listbox, messagebox, ttk
+
+class DashboardWindow:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("BorrowEase Dashboard")
+        self.root.geometry("1000x800")
+        self.root.configure(fg_color="#27374D")  # Background color
+
+        # Left Menu Frame
+        menu_frame = ctk.CTkFrame(root, width=200, height=600, corner_radius=0, fg_color="#1E2D3A")
+        menu_frame.pack(side="left", fill="y")
+
+        menu_items = [("Booklist", self.show_booklist), ("Books Borrowed", self.show_books_borrowed),
+                      ("Books Returned", self.show_books_returned), ("Book Lost", self.show_book_lost)]
+        for i, (text, command) in enumerate(menu_items):
+            button = ctk.CTkButton(menu_frame, text=text, fg_color="#1E2D3A", hover_color="#415A77", command=command)
+            button.pack(pady=20, padx=25, anchor="w")
+
+        self.logout_button = ctk.CTkButton(menu_frame, text="LOGOUT", fg_color="#1E2D3A", hover_color="#415A77", command=self.logout)
+        self.logout_button.pack(side="bottom", pady=20)
+
+        # Main Content Frame
+        self.main_frame = ctk.CTkFrame(root, width=800, height=600, corner_radius=0, fg_color="#2A3B4C")
+        self.main_frame.pack(side="right", fill="both", expand=True)
+
+        self.show_booklist()
+
+    def clear_frame(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+    def show_booklist(self):
+        self.clear_frame()
+
+        # Container frame for both sections
+        container_frame = ctk.CTkFrame(self.main_frame, fg_color="#2A3B4C")
+        container_frame.pack(pady=10, padx=10, fill="both", expand=True)
+        container_frame.grid_columnconfigure(0, weight=1)
+        container_frame.grid_columnconfigure(1, weight=1)
+        container_frame.grid_rowconfigure(0, weight=1)
+
+        # Borrowed Books Section
+        borrowed_books_frame = ctk.CTkFrame(container_frame, width=800, height=400, corner_radius=10, fg_color="#354B5E")
+        borrowed_books_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        borrowed_books_label = ctk.CTkLabel(borrowed_books_frame, text="RETURNED BOOKS", font=("Arial", 16, "bold"), text_color="white")
+        borrowed_books_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+
+        # Create Treeview widget
+        columns = ("Borrower Name", "Contact No.", "Email", "Book", "Date", "Time")
+        self.tree = ttk.Treeview(borrowed_books_frame, columns=columns, show="headings")
+        self.tree.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+
+        # Configure column headings
+        for col in columns:
+            self.tree.heading(col, text=col)
+
+        # Sample data (replace with your actual data handling logic)
+        data = [
+            ("John Doe", "1234567890", "john.doe@example.com", "Python Programming", "2024-07-01", "10:00 AM"),
+            ("Jane Smith", "9876543210", "jane.smith@example.com", "Data Science Essentials", "2024-06-30", "02:00 PM")
+        ]
+
+        # Insert data into the treeview
+        for item in data:
+            self.tree.insert("", "end", values=item)
+            
+    def insert_book(self):
+        # Implement the functionality to insert a book
+        pass
+
+    def borrow_book(self):
+        # Implement the functionality to borrow a book
+        pass
+
+    def edit_book(self):
+        # Implement the functionality to edit a book
+        pass
+
+    def delete_book(self):
+        # Implement the functionality to delete a book
+        pass
+
+    def logout(self):
+        # Implement the functionality to log out
+        pass
+
+    def show_books_borrowed(self):
+        # Implement the functionality to show books borrowed
+        pass
+
+    def show_books_returned(self):
+        # Implement the functionality to show books returned
+        pass
+
+    def show_book_lost(self):
+        # Implement the functionality to show books lost
+        pass
+
+# Example usage
+if __name__ == "__main__":
+    root = ctk.CTk()
+    app = DashboardWindow(root)
+    root.mainloop()
